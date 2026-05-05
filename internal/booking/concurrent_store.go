@@ -3,7 +3,7 @@ package booking
 import "sync"
 
 type ConcurrentStore struct {
-	bookings map[string]Booking
+	bookings map[string]Booking  // [seatId] -> booking details
 	sync.RWMutex
 }
 
@@ -26,7 +26,7 @@ func (s *ConcurrentStore) Book(b Booking) error {
 func (s *ConcurrentStore) ListBookings(movieID string) []Booking {
 	s.RLock()
 	defer s.RUnlock()
-	
+
 	var result []Booking
 	for _, b := range s.bookings {
 		if b.MovieID == movieID {
